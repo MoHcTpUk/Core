@@ -66,8 +66,8 @@ namespace Core.BLL.Extensions
 
             foreach (var handlerType in typeList)
             {
-                var repositoriesConfigurator = (IContextFactoryConfigurator)Activator.CreateInstance(handlerType.Implementation);
-                repositoriesConfigurator?.ConfigureContextFactory(services);
+                var contextFactoryConfiguratortor = (IContextFactoryConfigurator)Activator.CreateInstance(handlerType.Implementation);
+                contextFactoryConfiguratortor?.ConfigureContextFactory(services);
             }
 
             return services;

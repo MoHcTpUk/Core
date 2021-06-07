@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.DAL.Repository
 {
@@ -28,7 +28,7 @@ namespace Core.DAL.Repository
 
         public IEnumerable<TEntity> Find(Func<TEntity, bool> predicate)
         {
-            return _context.Set<TEntity>().Where(predicate);
+            return _context.Set<TEntity>().AsNoTracking().AsEnumerable().Where(predicate);
         }
 
         public async Task<TEntity> Create(TEntity entity)

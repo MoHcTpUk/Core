@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Core.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.DAL.Entities;
 
 namespace Core.DAL.Repository
 {
@@ -10,7 +10,7 @@ namespace Core.DAL.Repository
     {
         public IQueryable<TEntity> GetAll();
         public IQueryable<TEntity> Get(int id);
-        public IEnumerable<TEntity> Find(Func<TEntity, Boolean> predicate);
+        public IEnumerable<TEntity> Find(Func<TEntity, bool> predicate);
         public Task<TEntity> Create(TEntity item);
         public Task<TEntity> Update(TEntity item);
         public Task<bool> Delete(int id);

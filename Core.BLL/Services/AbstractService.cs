@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Core.DAL.Entities;
 using Core.DAL.Repository;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Core.BLL.Services
 {
