@@ -31,6 +31,7 @@ namespace Core.BLL.Configuration
                 .AddDbContextFactories(assemblies)
                 .AddAutoMapperConfigs(assemblies)
                 .AddMediatR(assemblies.ToArray())
+                .AddIdentity(assemblies)
                 .AddConfiguration(new List<string> { "config.json" })
                 ;
         }

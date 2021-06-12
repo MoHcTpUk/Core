@@ -5,6 +5,7 @@ using System.Reflection;
 using AutoMapper;
 using Core.BLL.Configuration;
 using Core.DAL.Configuration;
+using Core.DAL.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -54,6 +55,20 @@ namespace Core.BLL.Extensions
             {
                 var repositoriesConfigurator = (IRepositoriesConfigurator) Activator.CreateInstance(handlerType.Implementation);
                 repositoriesConfigurator?.ConfigureRepositories(services);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddIdentity(this IServiceCollection services, List<Assembly> assemblys)
+        {
+            var interfaceType = typeof(IIdentityConfigurator);
+            var typeList = GetAllInterfaceImplementations(assemblys, interfaceType);
+
+            foreach (var handlerType in typeList)
+            {
+                var repositoriesConfigurator = (IIdentityConfigurator)Activator.CreateInstance(handlerType.Implementation);
+                repositoriesConfigurator?.ConfigureIdentity(services);
             }
 
             return services;
