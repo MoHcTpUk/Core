@@ -18,32 +18,32 @@ namespace Core.BLL.Services
             _mapper = mapper;
         }
 
-        public async Task<TDTO> Create(TDTO dto)
+        public async Task<TDTO> CreateAsync(TDTO dto)
         {
             var entity = _mapper.Map<TEntity>(dto);
-            entity = await _repository.Create(entity);
+            entity = await _repository.CreateAsync(entity);
             var createdEntityDto = _mapper.Map<TDTO>(entity);
 
             return createdEntityDto;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            return await _repository.Delete(id);
+            return await _repository.DeleteAsync(id);
         }
 
-        public IEnumerable<TDTO> Select(Func<TEntity, bool> predicate)
+        public async Task<IEnumerable<TDTO>> SelectAsync(Func<TEntity, bool> predicate)
         {
-            var entities = _repository.Find(predicate);
+            var entities = await _repository.FindAsync(predicate);
             var entitiesDto = _mapper.Map<IEnumerable<TDTO>>(entities);
 
             return entitiesDto;
         }
 
-        public async Task<TDTO> Update(TDTO dto)
+        public async Task<TDTO> UpdateAsync(TDTO dto)
         {
             var entity = _mapper.Map<TEntity>(dto);
-            entity = await _repository.Update(entity);
+            entity = await _repository.UpdateAsync(entity);
             var updatedEntityDto = _mapper.Map<TDTO>(entity);
 
             return updatedEntityDto;
