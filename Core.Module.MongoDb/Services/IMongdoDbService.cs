@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace Core.Module.MongoDb.Services
 {
@@ -10,6 +11,6 @@ namespace Core.Module.MongoDb.Services
         Task<IEnumerable<TEntity>> SelectAsync(Func<TEntity, bool> predicate);
         Task<TEntity> CreateAsync(TEntity dto);
         Task<TEntity> UpdateAsync(TEntity dto);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(ObjectId id);
     }
 }

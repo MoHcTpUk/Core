@@ -3,6 +3,7 @@ using Core.Module.MongoDb.Repository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace Core.Module.MongoDb.Services
 {
@@ -21,7 +22,7 @@ namespace Core.Module.MongoDb.Services
             return newEntity;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(ObjectId id)
         {
             return await _repository.DeleteAsync(id);
         }

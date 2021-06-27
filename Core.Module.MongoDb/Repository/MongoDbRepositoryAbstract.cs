@@ -42,7 +42,7 @@ namespace Core.Module.MongoDb.Repository
             return item;
         }
 
-        public Task<bool> DeleteAsync(int id)
+        public Task<bool> DeleteAsync(ObjectId id)
         {
             throw new NotImplementedException();
         }
@@ -55,7 +55,7 @@ namespace Core.Module.MongoDb.Repository
             return collection.Find(filter).ToEnumerable();
         }
 
-        public TEntity Get(int id)
+        public TEntity Get(ObjectId id)
         {
             throw new NotImplementedException();
         }
