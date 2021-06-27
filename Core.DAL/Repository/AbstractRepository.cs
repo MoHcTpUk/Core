@@ -16,7 +16,7 @@ namespace Core.DAL.Repository
             _context = context.CreateDbContext();
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
             return _context.Set<TEntity>();
         }
