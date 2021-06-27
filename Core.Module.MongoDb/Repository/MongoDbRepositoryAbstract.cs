@@ -68,9 +68,14 @@ namespace Core.Module.MongoDb.Repository
             return collection.Find(filter).ToEnumerable();
         }
 
-        public Task<TEntity> UpdateAsync(TEntity item)
+        public async Task<TEntity> UpdateAsync(TEntity item)
         {
-            throw new NotImplementedException();
+            var collection = Db.GetCollection<TEntity>(typeof(TEntity).Name);
+            var filter = Builders<TEntity>.Filter.Eq("_id", item.Id);
+            
+            await collection.ReplaceOneAsync(filter,item);
+
+            return item;
         }
     }
 }
