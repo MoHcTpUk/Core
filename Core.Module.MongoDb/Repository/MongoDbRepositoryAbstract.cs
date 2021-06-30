@@ -11,29 +11,11 @@ namespace Core.Module.MongoDb.Repository
 {
     public class MongoDbRepositoryAbstract<TEntity> : IMongoDbRepository<TEntity> where TEntity : MongoDBAbstractEntity
     {
-        private string User { get; }
-        private string Pass { get; }
-        private string Host { get; }
-        private string Port { get; }
-        private string DbName { get; }
-
-        private string ConnectionString { get; }
-        private MongoClient Client { get; }
         private IMongoDatabase Db { get; }
 
-        public MongoDbRepositoryAbstract()
+        public MongoDbRepositoryAbstract(IMongoDatabaseFactory mongoDatabase)
         {
-            User = "admin";
-            Pass = "";
-            Host = "localhost";
-            Port = "27017";
-            DbName = "test";
-
-            //  mongodb://[username:password@]hostname[:port][/[database][?options]]
-            ConnectionString = @$"mongodb://{User}:{Pass}@{Host}:{Port}/";
-
-            Client = new MongoClient(ConnectionString);
-            Db = Client.GetDatabase(DbName);
+            Db = mongoDatabase.GetMongoDatabase();
         }
 
         public async Task<TEntity> CreateAsync(TEntity item)
