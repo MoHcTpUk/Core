@@ -2,6 +2,7 @@
 using Core.Module.MongoDb.Repository;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using MongoDB.Bson;
 
@@ -27,9 +28,9 @@ namespace Core.Module.MongoDb.Services
             return await _repository.DeleteAsync(id);
         }
 
-        public async Task<IEnumerable<TEntity>> SelectAsync(Func<TEntity, bool> predicate)
+        public async Task<List<TEntity>> SelectAsync(List<Expression<Func<TEntity, bool>>> predicateList)
         {
-            var entities = await _repository.FindAsync(predicate);
+            var entities = await _repository.FindAsync(predicateList);
             return entities;
         }
 

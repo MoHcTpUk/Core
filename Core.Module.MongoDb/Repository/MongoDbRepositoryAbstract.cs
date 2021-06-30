@@ -3,6 +3,8 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Core.Module.MongoDb.Repository
@@ -47,12 +49,14 @@ namespace Core.Module.MongoDb.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate)
+        public async Task<List<TEntity>> FindAsync(List<Expression<Func<TEntity, bool>>> predicateList)
         {
-            var collection = Db.GetCollection<TEntity>(typeof(TEntity).Name);
-            var filter = new BsonDocument();
+            var collection = Db.GetCollection<TEntity>(typeof(TEntity).Name).AsQueryable();
+            var filter = PredicateBuilder.True<TEntity>();
 
-            return collection.Find(filter).ToEnumerable();
+            predicateList.ForEach(_=> filter = filter.And(_));
+
+            return collection.Where(filter).ToList();
         }
 
         public TEntity Get(ObjectId id)
