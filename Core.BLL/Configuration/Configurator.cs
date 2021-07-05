@@ -26,6 +26,7 @@ namespace Core.BLL.Configuration
             var assemblies = AppDomain.CurrentDomain.GetAssemblies().Where(_ => !_.IsDynamic).ToList();
 
             serviceCollection
+                .AddLogging()
                 .AddRepositories(assemblies)
                 .AddServices(assemblies)
                 .AddDbContextFactories(assemblies)
