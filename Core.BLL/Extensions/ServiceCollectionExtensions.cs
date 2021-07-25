@@ -5,6 +5,7 @@ using System.Reflection;
 using AutoMapper;
 using Core.BLL.Configuration;
 using Core.DAL.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.BLL.Extensions
@@ -24,7 +25,6 @@ namespace Core.BLL.Extensions
                 }
             });
 
-
             var mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
@@ -38,8 +38,8 @@ namespace Core.BLL.Extensions
 
             foreach (var handlerType in typeList)
             {
-                var repositoriesConfigurator = (IServicesConfigurator)Activator.CreateInstance(handlerType.Implementation);
-                repositoriesConfigurator?.ConfigureServices(services);
+                var servicesConfigurator = (IServicesConfigurator)Activator.CreateInstance(handlerType.Implementation);
+                servicesConfigurator?.ConfigureServices(services);
             }
 
             return services;
@@ -66,9 +66,25 @@ namespace Core.BLL.Extensions
 
             foreach (var handlerType in typeList)
             {
-                var repositoriesConfigurator = (IContextFactoryConfigurator)Activator.CreateInstance(handlerType.Implementation);
-                repositoriesConfigurator?.ConfigureContextFactory(services);
+                var contextFactoryConfiguratortor = (IContextFactoryConfigurator)Activator.CreateInstance(handlerType.Implementation);
+                contextFactoryConfiguratortor?.ConfigureContextFactory(services);
             }
+
+            return services;
+        }
+
+        public static IServiceCollection AddConfiguration(this IServiceCollection services, List<string> files)
+        {
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+
+            foreach (var file in files)
+            {
+                configurationBuilder.AddJsonFile(file);
+            }
+            
+            IConfiguration configuration = configurationBuilder.Build();
+
+            services.AddSingleton(configuration);
 
             return services;
         }

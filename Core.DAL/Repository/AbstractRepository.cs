@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Core.DAL.Entities;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Core.DAL.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace Core.DAL.Repository
 {
@@ -16,22 +16,22 @@ namespace Core.DAL.Repository
             _context = context.CreateDbContext();
         }
 
-        public IQueryable<TEntity> GetAll()
+        public IEnumerable<TEntity> GetAll()
         {
             return _context.Set<TEntity>();
         }
 
-        public IQueryable<TEntity> Get(int id)
+        public TEntity Get(int id)
         {
-            return _context.Set<TEntity>().Where(_ => _.Id == id);
+            return _context.Set<TEntity>().FirstOrDefault(_ => _.Id == id);
         }
 
-        public IEnumerable<TEntity> Find(Func<TEntity, bool> predicate)
+        public Task<IEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate)
         {
-            return _context.Set<TEntity>().Where(predicate);
+            return new(() => _context.Set<TEntity>().AsNoTracking().AsEnumerable().Where(predicate));
         }
 
-        public async Task<TEntity> Create(TEntity entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
             await _context.Set<TEntity>().AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -39,7 +39,7 @@ namespace Core.DAL.Repository
             return entity;
         }
 
-        public async Task<TEntity> Update(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             _context.Set<TEntity>().Update(entity);
             await _context.SaveChangesAsync();
@@ -47,9 +47,9 @@ namespace Core.DAL.Repository
             return entity;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            var entity = Get(id).FirstOrDefault();
+            var entity = Get(id);
 
             if (entity is null)
                 return false;

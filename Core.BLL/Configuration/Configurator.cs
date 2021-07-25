@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Core.BLL.Configuration
@@ -30,6 +31,7 @@ namespace Core.BLL.Configuration
                 .AddDbContextFactories(assemblies)
                 .AddAutoMapperConfigs(assemblies)
                 .AddMediatR(assemblies.ToArray())
+                .AddConfiguration(new List<string> { "config.json" })
                 ;
         }
     }
